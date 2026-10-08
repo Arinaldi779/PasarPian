@@ -1041,13 +1041,13 @@ Jika terjadi regression:
 
 AI Agent tidak boleh menyatakan implementasi selesai hanya karena fitur baru berhasil jika regression yang relevan belum diperiksa.
 
-\---
+---
 
 **# 24. TypeScript Learning Rule**
 
 
 
-User sedang mempelajari TypeScript dan React.
+User sedang mempelajari TypeScript, Nest.JS dan React.
 
 
 
@@ -1077,6 +1077,78 @@ Tambahkan comment pada eksperimen code yang digunakan sebagai penanda tujuan/hal
 
 
 
+**## Kewajiban Comment pada Code**
+
+
+
+Setiap code yang dibuat AI Agent harus bisa dibaca dan dipahami Dev tanpa membuka dokumen lain. Comment ditulis dalam Bahasa Indonesia.
+
+
+
+Wajib diberi comment (JSDoc di atas deklarasi):
+
+
+
+\- `interface`, `type`, `enum`
+
+\- `function` / `method` / `hook` / `service` / `component`
+
+\- konstanta yang dipakai di lebih dari satu tempat
+
+\- variable yang kegunaannya tidak terbaca dari namanya
+
+
+
+Isi comment minimal menjawab 3 pertanyaan:
+
+
+
+1\. **Apa ini?** (fungsi)
+
+2\. **Untuk apa?** (kegunaan / dipakai di mana)
+
+3\. **Kenapa ada?** (alasan keputusan, jika tidak terlihat dari code)
+
+
+
+Contoh:
+
+
+
+```ts
+
+/**
+
+ * Sisa tagihan yang belum dibayar pelanggan.
+
+ * Dihitung dari order.total - order.totalPaid; dipakai di KPI Dashboard
+
+ * dan tab Outstanding halaman Keuangan.
+
+ * Sengaja dihitung dari order, bukan disimpan terpisah, supaya tidak ada
+
+ * dua sumber kebenaran (AGENTS #16).
+
+ */
+
+const outstanding = order.total - order.totalPaid;
+
+```
+
+Larangan:
+
+
+
+\- Comment yang hanya mengulang nama variable (`// i = index`) adalah noise, jangan ditulis.
+
+\- Untuk logic rumit, comment menjelaskan **kenapa**, bukan mengulang **apa** yang sudah terbaca dari code.
+
+\- Code lama tanpa comment: tambahkan hanya saat file itu memang sedang disentuh — jangan refactor besar hanya demi comment (AGENTS #26).
+
+\- Latihan Dev tetap memakai tanda `@` sesuai AGENTS #25.
+
+
+
 \---
 
 
@@ -1101,23 +1173,107 @@ Untuk dokumentasi perkembangan aplikasi yg harus dilihat oleh developer(Aku sebe
 
 **### \`LEARN.md\`**
 
+Tujuan: \`LEARN.md\` bukan sekedar catatan — ia adalah **kurikulum privat proyek**.
+
+Isi \`LEARN.md\` yang di-paste ke AI mana pun harus cukup bagi AI itu untuk mengajar
+
+fundamental proyek dan teknologi seperti guru privat: menjelaskan konsep,
+
+memberi analogi, bertanya balik, memberi latihan, dan mengecek pemahaman —
+
+tanpa harus membaca seluruh codebase terlebih dahulu.
 
 
-Berisi:
+
+**Struktur wajib \`LEARN.md\`:**
 
 
 
-\- code flow
+1\. **Peta Proyek** — arsitektur (frontend → API → database), alur data utama,
 
-\- business flow
+struktur folder, file kunci beserta dari mana Dev sebaiknya mulai membaca.
 
-\- konsep yang dipelajari
 
-\- keputusan teknis
 
-\- alasan implementasi
+2\. **Fundamental Teknologi** — konsep React / TypeScript / NestJS / PostgreSQL
 
-\- hal yang masih belum dipahami
+yang benar-benar dipakai proyek, kenapa dipilih, contoh nyata dari codebase
+
+beserta rujukan \`file:baris\`. Bukan teori umum yang bisa dibaca di dokumentasi resmi.
+
+
+
+3\. **Alur Bisnis per Modul** — lifecycle / state machine, rumus kebenaran,
+
+guard transisi, dikaitkan ke bagian PRD / SCHEMA yang relevan.
+
+
+
+4\. **Keputusan Teknis** — apa yang dipilih, alasan, trade-off, alternatif yang
+
+ditolak dan kenapa. Keputusan tanpa alasan yang tercatat dianggap belum selesai.
+
+
+
+5\. **Pola & Konvensi Berulang** — pola yang dipakai di banyak tempat
+
+(contoh: transisi state eksplisit sebagai data, turunkan-jangan-tulis,
+
+drill-down terfilter, empty state ganda) beserta satu contoh lokasi tiap pola.
+
+
+
+6\. **Glosarium** — istilah bisnis ↔ istilah teknis (SKU, Outstanding, ADJUSTMENT,
+
+drill-down, dsb.). Satu istilah, satu makna, dipakai konsisten di code dan UI.
+
+
+
+7\. **Latihan \`@\`** — setiap latihan wajib mencantumkan: tujuan pembelajaran,
+
+tingkat (pemula/menengah), petunjuk tanpa jawaban langsung, dan cara menilai
+
+benar/salah. Satu latihan = satu konsep (sesuai aturan partner di bawah).
+
+
+
+8\. **Jejak Belajar** — apa yang sudah dikuasai Dev, apa yang masih belum,
+
+dan materi berikutnya (learning path). Bagian ini yang dibaca AI pengajar
+
+untuk menentukan mulai dari mana.
+
+
+
+**Aturan AI pengajar saat menerima isi \`LEARN.md\` (mode privat):**
+
+
+
+\- tentukan level Dev dari Jejak Belajar, mulai dari yang belum dikuasai;
+
+
+
+\- satu konsep per sesi dengan urutan: jelaskan → analogi → contoh kode nyata
+
+dari codebase → pertanyaan balik → latihan \`@\`;
+
+
+
+\- jangan memberikan jawaban langsung; berikan petunjuk bertahap dan biarkan
+
+Dev mengetik sendiri (sesuai AGENTS #24);
+
+
+
+\- selalu kaitkan penjelasan ke file dan baris nyata, bukan ke teori abstrak;
+
+
+
+\- tutup setiap sesi dengan rangkuman 3–5 baris plus 1–2 pertanyaan cek pemahaman;
+
+
+
+\- berbahasa Indonesia; istilah asing dijelaskan sekali lalu dipakai konsisten.
 
 
 
@@ -1145,7 +1301,7 @@ Berisi:
 
 Dokumentasi tidak boleh menggantikan source code atau schema aktual.
 
-untuk dokumentasi perkembangan aplikasi yg harus dilihat oleh orang awam/bukan orang IT update:
+untuk dokumentasi perkembangan aplikasi yg harus dilihat oleh orang awam/bukan orang IT beserta alur dan tata cara pemakaian aplikasi di semua role yg ada secara lengkap update:
 
 
 
@@ -1336,6 +1492,27 @@ Test
    ↓
 Build
    ↓
-Regression Check
-   ↓
-Validate
+ Regression Check
+    ↓
+ Validate
+
+---
+
+# 31. Easy to Use & Easy to Understand
+
+ERP ini harus dapat digunakan dan dipahami oleh semua pengguna sesuai perannya, termasuk pengguna non-teknis.
+
+Prinsip wajib:
+
+- gunakan bahasa Indonesia yang jelas, singkat, dan konsisten;
+- gunakan label bisnis yang familiar, bukan istilah teknis tanpa penjelasan;
+- tampilkan satu tindakan utama yang jelas pada setiap area kerja;
+- dashboard harus membantu pengguna menjawab “apa yang terjadi?” dan “apa yang harus saya lakukan?” tanpa membaca dokumentasi teknis;
+- gunakan chart sederhana dengan judul, satuan, legenda, dan konteks waktu yang jelas;
+- jangan menampilkan metrik atau dekorasi yang tidak membantu keputusan pengguna;
+- status, error, empty state, dan hasil aksi harus menjelaskan kondisi serta langkah berikutnya;
+- gunakan progressive disclosure: ringkasan dulu, detail setelah pengguna memilih;
+- tetap sediakan tooltip atau helper text untuk istilah seperti SKU, Reserved, Available, dan Outstanding;
+- accessibility, responsive layout, kontras, fokus keyboard, dan target klik yang cukup adalah bagian dari kemudahan penggunaan.
+
+Target desain bukan hanya “fitur tersedia”, tetapi pengguna baru dapat memahami alur dasar aplikasi dengan sedikit atau tanpa pendampingan.

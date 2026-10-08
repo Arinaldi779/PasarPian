@@ -1,117 +1,459 @@
 @import "tailwindcss";
 
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    /* Primitive Tokens: Netral Kayu Ulin */
+    --primitive-ulin-950: #020617;
+    --primitive-ulin-900: #0F172A;
+    --primitive-ulin-800: #1E293B;
+    --primitive-ulin-700: #334155;
+    --primitive-ulin-600: #475569;
+    --primitive-ulin-500: #64748B;
+    --primitive-ulin-400: #94A3B8;
+    --primitive-ulin-300: #CBD5E1;
+    --primitive-ulin-200: #E2E8F0;
+    --primitive-ulin-100: #F1F5F9;
+    --primitive-ulin-50:  #F8FAF9;
+    --primitive-white:    #FFFFFF;
+
+    /* Nilam Sungai Martapura (River Emerald / Teal) */
+    --primitive-river-900: #064E3B;
+    --primitive-river-800: #0A625A;
+    --primitive-river-700: #0D7A70; /* Brand Primary */
+    --primitive-river-600: #109489;
+    --primitive-river-500: #14B8A6;
+    --primitive-river-100: #CCFBF1;
+    --primitive-river-50:  #E6F4F2;
+
+    /* Kuning Sasirangan (Warm Amber / Ochre) */
+    --primitive-amber-800: #92400E;
+    --primitive-amber-700: #B45309;
+    --primitive-amber-600: #D97706; /* Brand Accent */
+    --primitive-amber-500: #F59E0B;
+    --primitive-amber-100: #FEF3C7;
+    --primitive-amber-50:  #FFFBEB;
+
+    /* Status Semantik */
+    --primitive-crimson-600: #E11D48;
+    --primitive-crimson-100: #FFE4E6;
+    --primitive-forest-600:  #16A34A;
+    --primitive-forest-100:  #DCFCE7;
+    --primitive-sky-600:     #0284C7;
+    --primitive-sky-100:     #E0F2FE;
+
+    /* Semantic Mappings */
+    --bg-app: var(--primitive-ulin-50);
+    --bg-surface: var(--primitive-white);
+    --bg-surface-subtle: var(--primitive-ulin-100);
+    --bg-sidebar: var(--primitive-ulin-900);
+    --bg-sidebar-active: var(--primitive-ulin-800);
+
+    --color-primary: var(--primitive-river-700);
+    --color-primary-hover: var(--primitive-river-800);
+    --color-primary-subtle: var(--primitive-river-50);
+    --color-accent: var(--primitive-amber-600);
+    --color-accent-hover: var(--primitive-amber-700);
+    --color-accent-subtle: var(--primitive-amber-50);
+
+    --text-main: var(--primitive-ulin-900);
+    --text-secondary: var(--primitive-ulin-700);
+    --text-muted: var(--primitive-ulin-500);
+
+    --border-subtle: var(--primitive-ulin-200);
+    --border-strong: var(--primitive-ulin-300);
+    --border-focus: var(--primitive-river-700);
+
+    --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* ===== Tema: Glassmorphism (DESIGN.md 5.1-E) ===== */
+    --glass-bg: rgba(255, 255, 255, 0.70);
+    --glass-bg-strong: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(255, 255, 255, 0.60);
+    --glass-blur: 16px;
+    --glass-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+    /* ===== Tema: Neumorphism (DESIGN.md 5.1-E) ===== */
+    --neu-radius: 12px;
+    --neu-shadow:
+      6px 6px 12px rgba(15, 23, 42, 0.10),
+      -6px -6px 12px rgba(255, 255, 255, 0.85);
+    --neu-shadow-in:
+      inset 3px 3px 6px rgba(15, 23, 42, 0.10),
+      inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+
+    /* ===== Semantic: tema (DESIGN.md 5.2) ===== */
+    --surface-glass: var(--glass-bg);
+    --surface-glass-strong: var(--glass-bg-strong);
+    --surface-glass-blur: var(--glass-blur);
+    --surface-glass-border: var(--glass-border);
+    --elevation-raised: var(--neu-shadow);
+    --elevation-pressed: var(--neu-shadow-in);
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Custom scrollbar for dense data tables and sidebars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
 
-body {
-  margin: 0;
+/* Numeric alignment utility — DESIGN.md 5.1-B: angka rupiah/kuantitas/nomor dokumen
+   memakai Poppins + tabular-nums. JetBrains Mono dipertahankan hanya untuk token
+   teknis murni (kode izin, hash, log) lewat class bawaan Tailwind `font-mono`. */
+.font-mono-numbers {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* ===== Tema Glassmorphism (DESIGN.md 5.0 & 5.3-E) ===== */
+.glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--surface-glass-blur));
+  -webkit-backdrop-filter: blur(var(--surface-glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: var(--glass-shadow);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
+.glass-strong {
+  background: var(--surface-glass-strong);
+  backdrop-filter: blur(var(--surface-glass-blur));
+  -webkit-backdrop-filter: blur(var(--surface-glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--glass-shadow);
+}
 
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+/* Fallback aksesibilitas: kaca dimatikan → permukaan jadi solid (DESIGN.md 5.0 aturan 6) */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-strong {
+    background: var(--bg-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: var(--border-subtle);
   }
 }
 
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+/* ===== Tema Neumorphism (DESIGN.md 5.0 & 5.3-E) ===== */
+.neu-raised {
+  box-shadow: var(--elevation-raised);
 }
 
-p {
-  margin: 0;
+.neu-pressed {
+  box-shadow: var(--elevation-pressed);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* Umpan balik tekan-tahan (hold) untuk tab filter: saat mouse ditahan, tab langsung
+   terasa tertekan seperti tombol fisik (DESIGN §5.0). Ditulis di sini (bukan varian
+   active: di komponen) karena class utilitas .neu-pressed tidak mengenal varian
+   Tailwind — tokennya tetap sama, jadi satu sumber kebenaran terjaga. */
+.filter-tab:active {
+  box-shadow: var(--elevation-pressed);
+  transform: scale(0.98);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Latar berwarna lembut: kaca butuh "isi" di belakangnya agar blur-nya terlihat
+   (DESIGN.md 5.0 aturan 1: kaca hanya di atas latar berwarna/bergradasi). */
+.page-backdrop {
+  border-radius: 24px;
+  background:
+    radial-gradient(1000px 320px at 8% 0%, rgba(20, 184, 166, 0.16), transparent 60%),
+    radial-gradient(800px 320px at 92% 6%, rgba(217, 119, 6, 0.13), transparent 55%);
 }
+
+/* ===== Tema tampilan: Terang (default) / Gelap / Baca — DESIGN §13 =====
+   Satu lapisan override terpusat di sini (bukan varian dark: di tiap halaman)
+   supaya 10 halaman tetap konsisten tanpa edit massal. Aturan main:
+   - Hanya skala NETRAL (putih/slate) + teks + border yang dipetakan ulang.
+   - Warna brand (teal/amber) dan badge semantik dipertahankan karakternya,
+     hanya disesuaikan kecerahannya agar kontras di tiap tema.
+   - CSS tak-berlapis menang atas utilities Tailwind yang berlapis (@layer),
+     jadi pemetaan ini berlaku apa pun urutannya. */
+
+/* ---------- Tema GELAP: Kayu Ulin malam ---------- */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-app: #0A0F1E;
+  --surface-glass: rgba(17, 28, 51, 0.72);
+  --surface-glass-strong: rgba(17, 28, 51, 0.92);
+  --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --elevation-raised: 5px 5px 10px rgba(0, 0, 0, 0.55), -5px -5px 10px rgba(148, 163, 184, 0.07);
+  --elevation-pressed: inset 3px 3px 7px rgba(0, 0, 0, 0.55), inset -3px -3px 7px rgba(148, 163, 184, 0.07);
+}
+
+html[data-theme="dark"] .glass,
+html[data-theme="dark"] .glass-strong {
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+html[data-theme="dark"] .page-backdrop {
+  background:
+    radial-gradient(1000px 320px at 8% 0%, rgba(20, 184, 166, 0.14), transparent 60%),
+    radial-gradient(800px 320px at 92% 6%, rgba(217, 119, 6, 0.12), transparent 55%);
+}
+
+/* Permukaan solid netral → tangga Ulin malam */
+html[data-theme="dark"] .bg-white,
+html[data-theme="dark"] .bg-white\/60,
+html[data-theme="dark"] .bg-white\/70,
+html[data-theme="dark"] .bg-white\/85,
+html[data-theme="dark"] .bg-white\/90 { background-color: #111C33; }
+html[data-theme="dark"] .bg-slate-50,
+html[data-theme="dark"] .bg-slate-50\/50,
+html[data-theme="dark"] .bg-slate-50\/60,
+html[data-theme="dark"] .bg-slate-50\/70,
+html[data-theme="dark"] .bg-slate-50\/80 { background-color: #1A2542; }
+html[data-theme="dark"] .bg-slate-100,
+html[data-theme="dark"] .bg-slate-100\/80 { background-color: #212F52; }
+html[data-theme="dark"] .bg-slate-200,
+html[data-theme="dark"] .bg-slate-200\/60 { background-color: #2B3A5E; }
+html[data-theme="dark"] .bg-slate-300,
+html[data-theme="dark"] .bg-slate-300\/70 { background-color: #3B4D75; }
+html[data-theme="dark"] .bg-slate-800 { background-color: #334155; }
+html[data-theme="dark"] .bg-\[\#F8FAF9\] { background-color: var(--bg-app); }
+
+/* Teks netral → terang */
+html[data-theme="dark"] .text-slate-900 { color: #F1F5F9; }
+html[data-theme="dark"] .text-slate-800 { color: #E2E8F0; }
+html[data-theme="dark"] .text-slate-700 { color: #CBD5E1; }
+html[data-theme="dark"] .text-slate-600 { color: #AEBDD2; }
+html[data-theme="dark"] .text-slate-500 { color: #8FA0B8; }
+html[data-theme="dark"] .text-slate-400 { color: #94A3B8; }
+html[data-theme="dark"] .text-slate-300 { color: #B9C5D6; }
+html[data-theme="dark"] .text-\[\#0F172A\] { color: #F1F5F9; }
+
+/* Brand teal/amber → versi terang agar kontras di atas gelap */
+html[data-theme="dark"] .text-\[\#0D7A70\],
+html[data-theme="dark"] .text-\[\#0A625A\],
+html[data-theme="dark"] .text-teal-600,
+html[data-theme="dark"] .text-teal-800 { color: #2DD4BF; }
+html[data-theme="dark"] .text-\[\#14B8A6\] { color: #5EEAD4; }
+html[data-theme="dark"] .text-\[\#D97706\] { color: #FBBF24; }
+
+/* Teks badge semantik → tint terang */
+html[data-theme="dark"] .text-amber-900 { color: #FDE68A; }
+html[data-theme="dark"] .text-amber-800,
+html[data-theme="dark"] .text-amber-700 { color: #FCD34D; }
+html[data-theme="dark"] .text-amber-600,
+html[data-theme="dark"] .text-amber-500,
+html[data-theme="dark"] .text-amber-400 { color: #FBBF24; }
+html[data-theme="dark"] .text-rose-900 { color: #FECDD3; }
+html[data-theme="dark"] .text-rose-800,
+html[data-theme="dark"] .text-rose-700 { color: #FDA4AF; }
+html[data-theme="dark"] .text-rose-600,
+html[data-theme="dark"] .text-rose-500 { color: #FB7185; }
+html[data-theme="dark"] .text-emerald-900 { color: #A7F3D0; }
+html[data-theme="dark"] .text-emerald-800,
+html[data-theme="dark"] .text-emerald-700 { color: #6EE7B7; }
+html[data-theme="dark"] .text-emerald-600 { color: #34D399; }
+html[data-theme="dark"] .text-sky-800,
+html[data-theme="dark"] .text-sky-700 { color: #7DD3FC; }
+html[data-theme="dark"] .text-sky-600 { color: #38BDF8; }
+html[data-theme="dark"] .text-blue-800,
+html[data-theme="dark"] .text-blue-700 { color: #93C5FD; }
+html[data-theme="dark"] .text-blue-600 { color: #60A5FA; }
+html[data-theme="dark"] .text-cyan-800 { color: #67E8F9; }
+html[data-theme="dark"] .text-cyan-600 { color: #22D3EE; }
+html[data-theme="dark"] .text-indigo-800 { color: #A5B4FC; }
+html[data-theme="dark"] .text-indigo-600 { color: #818CF8; }
+
+/* Latar badge semantik → kaca warna (tetap solid, tanpa blur) */
+html[data-theme="dark"] .bg-amber-50,
+html[data-theme="dark"] .bg-amber-50\/30,
+html[data-theme="dark"] .bg-amber-50\/80,
+html[data-theme="dark"] .bg-amber-50\/90 { background-color: rgba(245, 158, 11, 0.14); }
+html[data-theme="dark"] .bg-amber-100,
+html[data-theme="dark"] .bg-amber-100\/90 { background-color: rgba(245, 158, 11, 0.22); }
+html[data-theme="dark"] .bg-rose-50 { background-color: rgba(244, 63, 94, 0.14); }
+html[data-theme="dark"] .bg-rose-100 { background-color: rgba(244, 63, 94, 0.22); }
+html[data-theme="dark"] .bg-emerald-50,
+html[data-theme="dark"] .bg-emerald-50\/80 { background-color: rgba(16, 185, 129, 0.14); }
+html[data-theme="dark"] .bg-emerald-100 { background-color: rgba(16, 185, 129, 0.22); }
+html[data-theme="dark"] .bg-sky-50 { background-color: rgba(14, 165, 233, 0.14); }
+html[data-theme="dark"] .bg-blue-50 { background-color: rgba(59, 130, 246, 0.14); }
+html[data-theme="dark"] .bg-cyan-50 { background-color: rgba(34, 211, 238, 0.14); }
+html[data-theme="dark"] .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.16); }
+html[data-theme="dark"] .bg-teal-50,
+html[data-theme="dark"] .bg-teal-50\/30,
+html[data-theme="dark"] .bg-teal-50\/60,
+html[data-theme="dark"] .bg-teal-50\/80,
+html[data-theme="dark"] .bg-teal-50\/90 { background-color: rgba(20, 184, 166, 0.13); }
+html[data-theme="dark"] .bg-teal-100 { background-color: rgba(20, 184, 166, 0.22); }
+
+/* Border badge semantik → garis warna tembus */
+html[data-theme="dark"] .border-amber-200,
+html[data-theme="dark"] .border-amber-200\/70,
+html[data-theme="dark"] .border-amber-200\/90,
+html[data-theme="dark"] .border-amber-300,
+html[data-theme="dark"] .border-amber-300\/80,
+html[data-theme="dark"] .border-amber-400 { border-color: rgba(245, 158, 11, 0.38); }
+html[data-theme="dark"] .border-emerald-200,
+html[data-theme="dark"] .border-emerald-200\/80,
+html[data-theme="dark"] .border-emerald-200\/90,
+html[data-theme="dark"] .border-emerald-400 { border-color: rgba(16, 185, 129, 0.38); }
+html[data-theme="dark"] .border-rose-200,
+html[data-theme="dark"] .border-rose-200\/80,
+html[data-theme="dark"] .border-rose-300,
+html[data-theme="dark"] .border-rose-400 { border-color: rgba(244, 63, 94, 0.38); }
+html[data-theme="dark"] .border-sky-200 { border-color: rgba(14, 165, 233, 0.38); }
+html[data-theme="dark"] .border-blue-200 { border-color: rgba(59, 130, 246, 0.38); }
+html[data-theme="dark"] .border-cyan-200 { border-color: rgba(34, 211, 238, 0.38); }
+html[data-theme="dark"] .border-indigo-200 { border-color: rgba(99, 102, 241, 0.4); }
+html[data-theme="dark"] .border-teal-200,
+html[data-theme="dark"] .border-teal-300,
+html[data-theme="dark"] .border-\[\#0D7A70\] { border-color: rgba(45, 212, 191, 0.45); }
+
+/* Border netral → garis malam */
+html[data-theme="dark"] .border-slate-200,
+html[data-theme="dark"] .border-slate-200\/60,
+html[data-theme="dark"] .border-slate-200\/70,
+html[data-theme="dark"] .border-slate-200\/80,
+html[data-theme="dark"] .border-slate-200\/90 { border-color: #26334F; }
+html[data-theme="dark"] .border-slate-300 { border-color: #35496E; }
+html[data-theme="dark"] .border-slate-100 { border-color: #1E2A45; }
+html[data-theme="dark"] .border-slate-800 { border-color: #334155; }
+html[data-theme="dark"] .border-slate-900\/10 { border-color: rgba(148, 163, 184, 0.14); }
+html[data-theme="dark"] .border-white\/70 { border-color: rgba(148, 163, 184, 0.25); }
+html[data-theme="dark"] .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #223052; }
+
+/* Hover netral → terang selangkah */
+html[data-theme="dark"] .hover\:bg-slate-50:hover,
+html[data-theme="dark"] .hover\:bg-slate-50\/50:hover,
+html[data-theme="dark"] .hover\:bg-slate-50\/60:hover,
+html[data-theme="dark"] .hover\:bg-slate-50\/70:hover { background-color: #223052; }
+html[data-theme="dark"] .hover\:bg-slate-100:hover { background-color: #2A3A5C; }
+html[data-theme="dark"] .hover\:bg-slate-200\/60:hover { background-color: #33456B; }
+html[data-theme="dark"] .hover\:bg-teal-50:hover { background-color: rgba(20, 184, 166, 0.2); }
+html[data-theme="dark"] .hover\:bg-teal-100:hover { background-color: rgba(20, 184, 166, 0.28); }
+html[data-theme="dark"] .hover\:border-slate-200:hover { border-color: #33456B; }
+html[data-theme="dark"] .hover\:border-slate-300:hover { border-color: #3B4D75; }
+html[data-theme="dark"] .hover\:border-teal-300:hover { border-color: #2DD4BF; }
+html[data-theme="dark"] .hover\:border-amber-400:hover { border-color: #FBBF24; }
+html[data-theme="dark"] .hover\:border-emerald-400:hover { border-color: #34D399; }
+html[data-theme="dark"] .hover\:border-rose-400:hover { border-color: #FB7185; }
+html[data-theme="dark"] .hover\:text-slate-600:hover { color: #CBD5E1; }
+html[data-theme="dark"] .hover\:text-slate-700:hover { color: #E2E8F0; }
+html[data-theme="dark"] .hover\:text-slate-800:hover { color: #F1F5F9; }
+html[data-theme="dark"] .hover\:text-slate-900:hover { color: #FFFFFF; }
+html[data-theme="dark"] .hover\:text-rose-600:hover { color: #FB7185; }
+html[data-theme="dark"] .hover\:text-\[\#0D7A70\]:hover { color: #2DD4BF; }
+html[data-theme="dark"] .placeholder\:text-slate-400::placeholder { color: #7C8DA6; }
+
+/* Grafik tren: garis bantu + label sumbu ikut tema (CSS menimpa atribut SVG) */
+html[data-theme="dark"] .trend-chart line { stroke: #2A3A5C; }
+html[data-theme="dark"] .trend-chart text { fill: #94A3B8; }
+html[data-theme="dark"] .trend-chart .trend-point { fill: #111C33; }
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #33456B; }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: #3B4D75; }
+
+/* ---------- Tema BACA: kertas sepia yang nyaman ---------- */
+html[data-theme="baca"] {
+  color-scheme: light;
+  --bg-app: #F2EBD8;
+  --surface-glass: rgba(255, 253, 246, 0.72);
+  --surface-glass-strong: rgba(255, 253, 246, 0.92);
+  --glass-shadow: 0 8px 24px rgba(120, 96, 60, 0.12);
+  --elevation-raised: 6px 6px 12px rgba(120, 96, 60, 0.16), -6px -6px 12px rgba(255, 255, 255, 0.9);
+  --elevation-pressed: inset 3px 3px 6px rgba(120, 96, 60, 0.16), inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme="baca"] .glass,
+html[data-theme="baca"] .glass-strong {
+  border-color: rgba(180, 160, 115, 0.35);
+}
+
+html[data-theme="baca"] .page-backdrop {
+  background:
+    radial-gradient(1000px 320px at 8% 0%, rgba(20, 184, 166, 0.1), transparent 60%),
+    radial-gradient(800px 320px at 92% 6%, rgba(217, 119, 6, 0.12), transparent 55%);
+}
+
+html[data-theme="baca"] .bg-white,
+html[data-theme="baca"] .bg-white\/60,
+html[data-theme="baca"] .bg-white\/70,
+html[data-theme="baca"] .bg-white\/85,
+html[data-theme="baca"] .bg-white\/90 { background-color: #FFFDF6; }
+html[data-theme="baca"] .bg-slate-50,
+html[data-theme="baca"] .bg-slate-50\/50,
+html[data-theme="baca"] .bg-slate-50\/60,
+html[data-theme="baca"] .bg-slate-50\/70,
+html[data-theme="baca"] .bg-slate-50\/80 { background-color: #F7F0DD; }
+html[data-theme="baca"] .bg-slate-100,
+html[data-theme="baca"] .bg-slate-100\/80 { background-color: #F0E6CC; }
+html[data-theme="baca"] .bg-slate-200,
+html[data-theme="baca"] .bg-slate-200\/60 { background-color: #E4D7B6; }
+html[data-theme="baca"] .bg-slate-300,
+html[data-theme="baca"] .bg-slate-300\/70 { background-color: #D4C49C; }
+html[data-theme="baca"] .bg-slate-800 { background-color: #4A3F2C; }
+html[data-theme="baca"] .bg-\[\#F8FAF9\] { background-color: var(--bg-app); }
+
+html[data-theme="baca"] .text-slate-900 { color: #3A3121; }
+html[data-theme="baca"] .text-slate-800 { color: #4A3F2C; }
+html[data-theme="baca"] .text-slate-700 { color: #5B4E37; }
+html[data-theme="baca"] .text-slate-600 { color: #6F6045; }
+html[data-theme="baca"] .text-slate-500 { color: #8B7B58; }
+html[data-theme="baca"] .text-slate-400 { color: #A08E66; }
+html[data-theme="baca"] .text-slate-300 { color: #B5A37E; }
+html[data-theme="baca"] .text-\[\#0F172A\] { color: #3A3121; }
+
+html[data-theme="baca"] .border-slate-200,
+html[data-theme="baca"] .border-slate-200\/60,
+html[data-theme="baca"] .border-slate-200\/70,
+html[data-theme="baca"] .border-slate-200\/80,
+html[data-theme="baca"] .border-slate-200\/90 { border-color: #E3D6B4; }
+html[data-theme="baca"] .border-slate-300 { border-color: #CBBB90; }
+html[data-theme="baca"] .border-slate-100 { border-color: #ECE2C6; }
+html[data-theme="baca"] .border-slate-800 { border-color: #8B7B58; }
+html[data-theme="baca"] .border-slate-900\/10 { border-color: rgba(90, 74, 45, 0.14); }
+html[data-theme="baca"] .border-white\/70 { border-color: #E9DDC0; }
+html[data-theme="baca"] .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #E6D9B8; }
+
+html[data-theme="baca"] .hover\:bg-slate-50:hover,
+html[data-theme="baca"] .hover\:bg-slate-50\/50:hover,
+html[data-theme="baca"] .hover\:bg-slate-50\/60:hover,
+html[data-theme="baca"] .hover\:bg-slate-50\/70:hover { background-color: #F2E9D1; }
+html[data-theme="baca"] .hover\:bg-slate-100:hover { background-color: #EAE0C4; }
+html[data-theme="baca"] .hover\:bg-slate-200\/60:hover { background-color: #E0D3B0; }
+html[data-theme="baca"] .hover\:bg-teal-50:hover { background-color: #E9F3EC; }
+html[data-theme="baca"] .hover\:bg-teal-100:hover { background-color: #DDF0E4; }
+html[data-theme="baca"] .hover\:border-slate-200:hover { border-color: #CBBB90; }
+html[data-theme="baca"] .hover\:border-slate-300:hover { border-color: #B3A37E; }
+html[data-theme="baca"] .hover\:text-slate-600:hover { color: #5B4E37; }
+html[data-theme="baca"] .hover\:text-slate-700:hover { color: #4A3F2C; }
+html[data-theme="baca"] .hover\:text-slate-800:hover,
+html[data-theme="baca"] .hover\:text-slate-900:hover { color: #3A3121; }
+html[data-theme="baca"] .placeholder\:text-slate-400::placeholder { color: #A08E66; }
+
+html[data-theme="baca"] .trend-chart line { stroke: #DDD0AC; }
+html[data-theme="baca"] .trend-chart text { fill: #8B7B58; }
+
+html[data-theme="baca"] ::-webkit-scrollbar-thumb { background: #CBBB90; }
+html[data-theme="baca"] ::-webkit-scrollbar-thumb:hover { background: #B3A37E; }
